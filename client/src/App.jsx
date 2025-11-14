@@ -1,7 +1,10 @@
+import { Navigate } from "react-router-dom";
+
 export default function App() {
-  return (
-    <div className="flex items-center justify-center h-screen bg-gradient-to-r from-blue-500 to-purple-600 text-white">
-      <h1 className="text-5xl font-bold">Tailwind is Working! 💫</h1>
-    </div>
-  );
+  const token = localStorage.getItem("token");
+
+  if (!token) return <Navigate to="/login" />;
+
+  // If logged in → go to gallery
+  return <Navigate to="/gallery" />;
 }

@@ -9,6 +9,7 @@ import { dirname } from "path";
 import photoRoutes from "./routes/photoRoutes.js";
 import authRoutes from "./routes/auth.js";
 // import authMiddleware from "./middleware/auth.js";
+import authMiddleware from "./middleware/authMiddleware.js";
 
 dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
@@ -22,6 +23,8 @@ app.use(cors({ origin: "http://localhost:5173" }));
 const uploadDir = path.join(__dirname, "uploads");
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
 app.use("/uploads", express.static(uploadDir));
+app.use("/api/photos", authMiddleware, photoRoutes);
+
 
 // connect Mongo
 mongoose

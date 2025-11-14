@@ -39,13 +39,36 @@ export default function Gallery() {
     setSelectedFiles([]);
     fetchPhotos();
   };
+const deletePhoto = async (id) => {
+  const token = localStorage.getItem("token");
+
+  await axios.put(
+    `http://localhost:5000/api/photos/delete/${id}`,
+    {},
+    {
+      headers: { Authorization: `Bearer ${token}` }
+    }
+  );
+
+  fetchPhotos();
+};
+
+
 
   return (
+    
     <div className="min-h-screen bg-gray-100">
+
 
       {/* Navbar */}
       <div className="flex justify-between items-center p-4 bg-white shadow">
         <h1 className="text-2xl font-bold">📸 Bock Photos</h1>
+              <a
+  href="/trash"
+  className="bg-gray-700 text-white px-3 py-1 rounded hover:bg-gray-800"
+>
+  Trash
+</a>
         <button
           onClick={() => {
             localStorage.removeItem("token");
@@ -83,6 +106,13 @@ export default function Gallery() {
               className="w-full rounded-lg shadow hover:opacity-90"
               onClick={() => setActiveIndex(i)}
             />
+     <button
+  onClick={() => deletePhoto(p._id)}
+  className="absolute bottom-2 right-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded"
+>
+  Delete
+</button>
+
 
             {p.duplicateOf && (
               <span className="absolute top-2 left-2 bg-red-600 text-white text-xs px-2 rounded">
